@@ -22,7 +22,7 @@ app.register_blueprint(blueprint, url_prefix="/login")
 JSONBIN_KEY=os.getenv('JSONBIN_KEY')
 JSONBIN_BIN_ID=os.getenv('JSONBIN_BIN_ID')
 JSONBIN_URL=f"https://api.jsonbin.io/v3/b/{JSONBIN_BIN_ID}"
-HEADERS = {"X-Master-Key": JSONBIN_API_KEY}
+HEADERS = {"X-Master-Key": JSONBIN_KEY}
 
 def load():
     try:
