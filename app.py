@@ -5,7 +5,6 @@ import dotenv
 import os
 import json
 import uuid
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' # to be removed
 dotenv.load_dotenv()
 app = Flask(__name__)
 app.secret_key=os.getenv('APP_SECRET_KEY')
@@ -79,7 +78,7 @@ def delete_element(email:str,id:int,ismovie:bool)->bool:
     if ismovie:
         users[email]['movies']=[m for m in users[email]["movies"] if m['id']!= id]
     else:
-        users[email]['movies']=[m for m in users[email]["movies"] if m['id']!= id]
+        users[email]['shows']=[m for m in users[email]["shows"] if m['id']!= id]
     save(users)
     return True
 
