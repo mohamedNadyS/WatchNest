@@ -1,4 +1,4 @@
 flask
-flask-oauth
+flask_dance
 requests
 dotenv
