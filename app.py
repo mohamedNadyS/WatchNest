@@ -19,21 +19,25 @@ blueprint = make_google_blueprint(
 )
 app.register_blueprint(blueprint, url_prefix="/login")
 
-dataFile = 'data.json'
+JSONBIN_KEY=os.getenv('JSONBIN_KEY')
+JSONBIN_BIN_ID=os.getenv('JSONBIN_BIN_ID')
+JSONBIN_URL=f"https://api.jsonbin.io/v3/b/{JSONBIN_BIN_ID}"
+HEADERS = {"X-Master-Key": JSONBIN_API_KEY}
 
 def load():
-    if not os.path.exists(dataFile):
+    try:
+        resp = requests.get(f"{JSONBIN_URL}/latest",headers=HEADERS)
+        if resp.ok:
+            return resp.json().get('record', {})
         return {}
-    
-    with open(dataFile,"r") as f:
-        try:
-            return json.load(f)
-        except:
-            return {}
+    except:
+        return {}
 
 def save(users):
-    with open(dataFile,"w") as f:
-        json.dump(users,f,indent=4)
+    try:
+        requests.put(JSONBIN_URL, json=users, headers={"Content-Type": "application/json", **HEADERS})
+    except Exception as e:
+        print(f"Cloud Save Error: {e}")
 
 def load_users_data(email:str):
     users = load()
